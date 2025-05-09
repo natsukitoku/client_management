@@ -1,6 +1,7 @@
 package com.example.client_management.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -58,10 +59,21 @@ public class CustomerService {
         repository.save(customer);
     }
 
+    public void delete(Integer customerId) {
+        Customer customer = findById(customerId);
+        customer.setUpdatedAt(LocalDateTime.now());
+        customer.setDeletedAt(LocalDateTime.now());
+        repository.save(customer);
+    }
+
     public Customer findById(Integer id) {
         Optional<Customer> customer = repository.findById(id);
         Customer cust = customer.get();
         return cust;
     }
-    
+
+    public List<Customer> getAllCustomers(Integer accountManagerId) {
+        List<Customer> customers = repository.findAll(accountManagerId);
+        return customers;
+    }
 }
